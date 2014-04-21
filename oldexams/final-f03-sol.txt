@@ -1,0 +1,106 @@
+Final Exam Solutions
+CS 213 Fall 2003
+
+*********
+Problem 1
+*********
+1. V = 2^{n+1} - 1
+
+2. V = 2^{2 - 2^{k-1}}
+
+Note: 2^n denotes 2 to the power n
+
+*********
+Problem 2
+*********
+A. x->b->j.h[3]
+B. x->h[1]
+C. x->k->i
+
+*********
+Problem 3
+*********
+N=7
+
+*********
+Problem 4
+*********
+summer
+spring
+fall
+winter
+
+*********
+Problem 5
+*********
+Part 1
+mhm
+mmm
+mmh
+---
+hhm
+mmh
+mhh
+
+Part 2
+hhh
+hhh
+hhh
+---
+hhh
+hhh
+hhh
+
+*********
+Problem 6
+*********
+1. A B 
+2. C D
+3. D
+4. C 
+
+*********
+Problem 7
+*********
+1. Could be either 3, 4, or 5
+2. 3
+3. 3
+4. Could be either 3 or 4
+
+*********
+Problem 8
+*********
+1. largest value = 2
+2. largest value = 2 
+3. largest value = 4
+
+*********
+Problem 9
+*********
+A, D, and H
+
+**********
+Problem 10
+**********
+Before child exits
+8 letters read
+1 number read
+
+Immediately before parent exits:
+3 letters read since child exited
+3 numbers read since child exited
+
+**********
+Problem 11
+**********
+Part 1: Possible output sequences:
+34
+43
+39
+93
+36
+63
+
+Part 2: Possible output sequences:
+1 
+2

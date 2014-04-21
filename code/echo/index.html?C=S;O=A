@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /afs/cs/academic/class/15213-f06/www/code/echo</title>
+ </head>
+ <body>
+<h1>Index of /afs/cs/academic/class/15213-f06/www/code/echo</h1>
+<pre><img src="/icons/blank.gif" alt="Icon "> <a href="?C=N;O=A">Name</a>                    <a href="?C=M;O=A">Last modified</a>      <a href="?C=S;O=D">Size</a>  <a href="?C=D;O=A">Description</a><hr><img src="/icons/back.gif" alt="[DIR]"> <a href="/afs/cs/academic/class/15213-f06/www/code/">Parent Directory</a>                             -   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echo.h">echo.h</a>                  30-Nov-2006 15:44   37   
+<img src="/icons/p.gif" alt="[   ]"> <a href="echoclient.pl">echoclient.pl</a>           03-Sep-2003 15:20  343   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoserverimin.c">echoserverimin.c</a>        30-Nov-2006 17:12  436   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echo.c">echo.c</a>                  30-Nov-2006 16:07  495   
+<img src="/icons/p.gif" alt="[   ]"> <a href="echoserveri.pl">echoserveri.pl</a>          03-Sep-2003 15:20  654   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoclient.c">echoclient.c</a>            30-Nov-2006 14:56  716   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoserveri.c">echoserveri.c</a>           30-Nov-2006 15:47  1.0K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoservert.c">echoservert.c</a>           30-Nov-2006 16:05  1.2K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="Makefile">Makefile</a>                30-Nov-2006 20:26  1.3K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoserverp.c">echoserverp.c</a>           30-Nov-2006 16:02  1.4K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoclientub.c">echoclientub.c</a>          02-Dec-2004 06:53  1.6K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echo.o">echo.o</a>                  30-Nov-2006 16:07  2.1K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="echoservers.c">echoservers.c</a>           30-Nov-2006 20:18  4.0K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="csapp.h">csapp.h</a>                 01-Feb-2002 19:56  5.4K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="csapp.c">csapp.c</a>                 19-Nov-2004 16:31   17K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="csapp.o">csapp.o</a>                 30-Nov-2006 15:00   19K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoclient">echoclient</a>              30-Nov-2006 15:00   27K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoserverimin">echoserverimin</a>          30-Nov-2006 17:21   27K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoserveri">echoserveri</a>             30-Nov-2006 17:11   27K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoservert">echoservert</a>             30-Nov-2006 16:07   27K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoclientub">echoclientub</a>            30-Nov-2006 15:02   27K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoserverp">echoserverp</a>             30-Nov-2006 16:07   28K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="echoservers">echoservers</a>             30-Nov-2006 20:18   28K  
+<hr></pre>
+</body></html>

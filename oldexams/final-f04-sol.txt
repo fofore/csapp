@@ -1,0 +1,232 @@
+Final Exam Solutions
+CS 213 Fall 2004
+
+
+
+*********
+Problem 1
+*********
+
+Part 1:
+Denormalized numbers
+A. -62
+B. 255/256
+
+Normalized numbers
+A. -62
+B. 63
+C. 1
+D. 511/256
+
+
+Part 2:
+
+
+We have infinity or NaN when exp == 0x7f. We have a denormalized
+number when exp == 0x0. For denormalized numbers, exps stays at 0. but
+we shift frac to the right by 1. For everything else, just decrement
+exp.
+
+
+
+
+*********
+Problem 2
+*********
+
+
+No answer provided.
+
+
+
+
+*********
+Problem 3
+*********
+
+
+No answers provided.
+
+
+
+
+*********
+Problem 4
+*********
+
+A. 12
+B. The code enters into an infinite loop, segfaulting and long
+jumping.
+
+
+
+
+*********
+Problem 5
+*********
+
+A. 4 CPE
+B. 4/3 CPE
+
+
+
+
+*********
+Problem 6
+*********
+
+Part A.
+
+A. x << 3 + x << 1
+B. a + ~ b + 1
+
+
+Part B.
+A. 0xFFFFFFFF
+B. 0
+C. func(a) & 1
+
+
+
+
+*********
+Problem 7
+*********
+
+
+No answer provided.
+
+
+
+
+*********
+Problem 8
+*********
+
+Answers in order of blanks:
+
+A.
+.L2, %edx, %ecx, %eax
+
+B.
+%ecx, %edx, %eax
+
+C.
+movl 0x4(%eax),%eax, after line 14.
+
+
+
+
+*********
+Problem 9
+*********
+
+
+A. No
+B. Yes, Line 2 then line 13.
+C. yes, Any ordering of lines 2, 11, and 20.
+
+
+
+
+
+
+*********
+Problem 10
+*********
+
+
+A.
+
+%% Answer: The basic bug is that the client is mixing buffered and
+%% unbuffered input.  The call to \verb@rio_readlineb@ will read in an entire
+%% packet, which includes both the length information and the data
+%% The call to \verb@rio_readn@ ignores any remaining data in the buffer
+%% and therefore skips over the actual data.  The first time, it will
+%% pick up the first 5 characters of the next packet.  After that it gets
+%% really lost.
+
+
+
+B.
+
+%% Change the call to \verb@rio_readn@ to \verb@rio_readnb@.
+%% I.e., replace line 10 with:
+%%   n = Rio_readnb(&rio, buf, len);
+%% That way the client will pick up any data that has been read
+%% into the buffer.
+
+
+C.
+
+%% Break the server write into two parts: first send the length information
+%% and then send the data (with a sleep in between)
+%% I.e., replace lines 5 & 6 with
+%%   sprintf(buf, "Content-Length: %d\r\n", len);
+%%   Rio_writen(clientfd, buf, strlen(buf));
+%%   sleep(1);
+%%   Rio_writen(clientfd, data, len);
+%% That way, the client's call to \verb@rio_readn@ will get the data.
+
+
+
+D. No answer given.
+
+
+
+
+
+*********
+Problem 11
+*********
+
+
+A. Y = H, Z = C
+B. C/B
+C. C/(4*B)
+D. 1.25C or 1.25C-B+1
+E. (B-1)/B
+F. P/B + H
+
+
+
+
+
+*********
+Problem 12
+*********
+
+
+Answer not provided.
+
+
+
+
+
+
+*********
+Problem 13
+*********
+
+
+
+double foo;        /* SE */
+
+double abc;        /* OK L */
+
+int *foo_ptr;      /* SE */
+
+int cnt;           /* OK G */
+
+double xyzzy;      /* OK L */
+
+int bar = 0;       /* SE */
+
+double eps = 1e-6; /* LE */
+
+int MAX_N = 99;    /* OK L */
+
+unsigned *dead;    /* SE */
+
+static int beaf;   /* OK L */
+

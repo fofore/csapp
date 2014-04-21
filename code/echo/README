@@ -1,0 +1,27 @@
+Demonstration of TCP/IP client/server code
+
+echoclient.c
+echoclient.pl
+	Basic echo client
+
+echoclientub.c
+	Echo client with partial buffering to demonstrate granularity
+	of concurrency
+
+echoserveri.c
+echoserverimin.c
+echoserveri.pl
+	Sequential server.
+
+echoserverp.c
+	Echo server that forks separate process for each client
+
+echoservert.c
+	Echo server that spawns a separate thread for each client
+
+echoservers.c
+	Echo server and client using I/O multiplexing
+
+
+
+

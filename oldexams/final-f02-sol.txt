@@ -1,0 +1,114 @@
+Final Exam Solution
+CS 213 Fall 2002
+
+*********
+Problem 1
+*********
+
+Expression				Always True?
+
+1. x < 0 => (x*3) < 0			N: x = TMin
+2. x < 0 => (dx*dx*dx < 0.0)		Y
+3. ((y-x)<<3) + x-(2*y) == 6*y - 7*x	Y: Associative, commutative, distributes
+4. ((x-y)<<3) + (x>>1) - y ==		N: x = -1, y = 0
+      8*x - 9*y + x/2
+5. (x-y) > 0 => -x < -y			N: x = -1, y = TMin
+6. ux - x == 0				Y: ux - x = ux + ~x + 1 = 11..1 + 1 = 0
+7. x > 0 => !( x >> 31 | !x) == 1	Y: checks for a positive number
+8. ((ux >> 1) << 1) = ux		N: x = 1 (any number with lsb set)
+9. dx / 3.0 == x / 3			N: x/3 == 0
+10. x - (int)dx == 0			Y
+
+*********
+Problem 2
+*********
+
+x = 0x44556677
+c = 0xcc
+x = 0xffffffcc
+c = 0x77
+
+*********
+Problem 3
+*********
+
+N=10
+
+
+*********
+Problem 4
+*********
+
+A. func2
+B. func5
+
+*********
+Problem 5
+*********
+
+int foo(int x, int y) {
+
+  if (x==0)
+    return y+1;
+  if (y==0)
+    return x+1;
+  
+  return foo(x-1,y) * foo(x, y-1);
+  
+}
+
+*********
+Problem 6
+*********
+
+The cache holds 128 words.
+	Evict?	i	j	Next conflicting block contents
+16	y	8	0	a[8][0..3]
+12	n	-	-	a[10][8..11]
+14	y	9	2	a[9][2..6]
+10	n	-	-	None.  Entire array fits in cache
+
+
+*********
+Problem 7
+*********
+
+Part 1:
+A. Y
+B. N
+C. Y
+D. N
+E. Y
+
+Part 2:
+Parent: i = 10
+Child: i = 20
+
+*********
+Problem 8
+*********
+			IL	ILBT	E1LBT	E2LBT
+malloc(n)		m+n	m+n	n	n
+free(bp)		1	1	n	1
+isRightFree(bp)		1	1	1	1
+isLeftFree(bp)		m+n	1	1	1
+isValidAddress(p)	m+n	m+n	n	n
+
+*********
+Problem 9
+*********
+
+1. fd3 = 3
+2. c = a
+3. c = r
+4. c = b
+
+**********
+Problem 10
+**********
+
+A. No
+B. Yes
+C. No
+D. No
+E. Yes

@@ -1,0 +1,120 @@
+Final Exam Solutions
+CS 213 Fall 2005
+
+*********
+Problem 1
+*********
+A. 30 VA bits
+B. 28 PA bits
+C. 2^(30-12) = 2^18 page table entries
+
+*********
+Problem 2
+*********
+Format A                        Format B
+bits            val             bits            val
+
+0 10110 011     176             0 1110 0110     176
+1 00111 010     -5/1024         1 0000 0101     -5/1024 (Norm -> Denorm)
+1 11100 000     -8192           1 1110 1111     -248 (smallest number > -Inf)
+0 10111 100     384             0 1111 0000     +Inf
+
+*********
+Problem 3
+*********
+M=7
+N=5
+
+*********
+Problem 4
+*********
+int foo (unsigned int x)
+{
+  int a, b, i;
+
+  if(x < 2) // or x <=1
+    return x;
+
+  a = 1;
+  b = 0;  
+  
+  for(i = 2; i <= x; i++) 
+  {
+    a = a + b;
+    b = a - b;
+  }
+  
+  return a;
+}
+
+*********
+Problem 5
+*********
+A. CPE = 5.0/1 = 5
+B. CPE = 5.0/2 = 2.5
+C. Unroll by 10 to get optimal CPE of 0.5
+D. Some possible reasons: i-cache capacity misses, not enough
+registers, long finishing code, matrix workload not large enough
+
+*********
+Problem 6
+*********
+A. 
+(a) CT:[13-6], CI:[5-4], CO:[3-0]
+(b) CI=0x2, CO=0xc (12)
+(c) The key is to notice that arr[0][0] has a block offset of 12,
+and thus it occupies the last 4 bytes of its associated cache block
+and arr[0][1] starts a new cache block.
+
+2 3 3 3 3
+0 0 0 0 1
+1 1 1 2 2
+2 2 3 3 3
+3 0 0 0 0
+
+B. 
+arr[1][2]  M
+arr[0][0]  H
+arr[4][0]  H
+arr[0][3]  M
+
+C. 
+(a) 25%
+(b) 50%
+(c) 12.5%
+
+*********
+Problem 7
+*********
+A. Number of output lines = 2^n
+B. Possible output sequences:
+abcc
+acbc
+bacc
+C. Output:
+counter = 2
+counter = -2
+counter = 4
+
+*********
+Problem 8
+*********
+A. correct: A, C, E, F
+B. correct: A
+
+*********
+Problem 9
+*********
+A. cnt == 2
+B. cnt == 1
+C. cnt == 2
+D. cnt == 1
+
+**********
+Problem 10
+**********
+
+No additional semaphores needed
+P(mutex)
+[Read operation: peek at front item]
+V(mutex)

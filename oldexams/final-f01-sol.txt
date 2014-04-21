@@ -1,0 +1,172 @@
+Final Exam Solutions
+CS 213 Fall 2001
+
+*********
+Problem 1
+*********
+
+Expression				Always True?
+
+1. (x<y) == (-x>-y)			N: Let x = Tmin, y = 0
+2. ((x+y)<<4) + y-x == 17*y+15*x	Y: Associative, commutative, distributes
+3. ~x+~y+1 == ~(x+y)			Y: (-x-1)+(-y-1)+1 == -(x+y)-1				
+4. ux-uy == -(y-x)			Y	
+5. (x >= 0) || (x < ux)			N: x = -1.  Comparison x < ux is never true.
+6. ((x >> 1) << 1) <= x			Y: x>>1 rounds toward minus infinity.
+7. (double)(float) x == (double) x	N: Try x = Tmax.	
+8. dx + dy == (double) (y+x)		N: Try x=y=Tmin.
+9. dx + dy + dz == dz + dy + dx		Y: Within range of exact representation by double's.
+10. dx * dy * dz == dz * dy * dx	N: Try dx=Tmax, dy=Tmax-1, dz=Tmax-2 	
+
+*********
+Problem 2
+*********
+
+int looper(int n, int *a) {
+  int i;
+  int x = 0; // 2 points
+
+  for(i = 0; i < n; i++) { // 2points
+    if (a[i] > x) or  if (!(a[i] <= x)) // 2 points  
+      x = a[i]; // 2 points
+    x++; // 2 points
+  }
+
+  return x;
+}
+
+*********
+Problem 3
+*********
+
+typedef struct node {
+    double x;	
+    unsigned short;
+    struct node *next;
+    struct node *prev;
+} node_t;
+
+
+node_t n;
+void func() {
+    node_t *m;
+
+    m = n.next->prev;
+    m->y /= 16;
+    return;
+}
+
+*********
+Problem 4
+*********
+
+M = 5
+N = 7
+
+*********
+Problem 5
+*********
+
+A. 0xbffff5b0
+B. char *, int, file_spec *, l_node, int *
+C. descriptor, len, file, root, &result
+
+or 
+
+B. int, struct file_spec *, int, struct l_node *, int
+C. len, file, root.tag, root.next, &result
+
+*********
+Problem 6
+*********
+
+Cache	m	C	B	E	S	t	s	b
+1.	32 	1024	4	4 	64	24	6	2
+2.	32 	1024 	4 	256 	1	30	0	2
+3.	32 	1024 	8 	1 	128	22	7	3
+4.	32 	1024 	8 	128 	1	29	0	3
+5.	32 	1024 	32 	1 	32	22	5	5
+6.	32 	1024 	32 	4 	8 	24	3	5
+
+*********
+Problem 7
+*********
+
+copy_matrix():
+a. ROWS=128, COLS=128: 100%
+b. ROWS=128, COLS=192:  25%
+c. ROWS=128, COLS=256: 100%
+
+copy_n_flip_matrix():
+a. ROWS=128, COLS=128:  25%
+b. ROWS=128, COLS=192:  25%
+
+copy_n_flip_matrix2()
+a. ROWS=128, COLS=128:  25%
+b. ROWS=192, COLS=128:  75%
+
+
+*********
+Problem 8
+*********
+
+Version	Measured CPE	Theoretical CPE
+A1	 4.00		4/1 = 4.00
+A2	 2.67		8/3 = 2.67
+A3	 1.67		4/3 = 1.33
+A4	 1.67		4/3 = 1.33
+A5	 2.67		8/3 = 2.67
+
+*********
+Problem 9
+*********
+A. 
+printed 10 times
+counter==1 in first line 
+counter==2 in last line
+
+B. 
+Output is:
+ counter = 1
+ counter = 3
+ counter = 3
+
+C.
+Because signals are not queued, the program
+does NOT print the same value of counter each time.
+The possible values are counter == {1,2,3,4,5}
+depending on the scheduling of the child processes.
+
+**********
+Problem 10
+**********
+
+First Fit:
+40a
+40a, 24a
+40a, 24a, 24a
+40a, 24a, 24a, 48a
+40a, 24a, 24f, 48a
+40f, 24a, 24f, 48a
+24a, 16f, 24a, 24f, 48a
+24a, 16f, 24a, 72f
+24a, 16f, 24a, 56a, 16f
+24a, 40f, 56a, 16f
+
+Best Fit:
+40a
+40a, 24a
+40a, 24a, 24a
+40a, 24a, 24a, 48a
+40a, 24a, 24f, 48a
+40f, 24a, 24f, 48a
+40f, 24a, 24a, 48a
+40f, 24a, 24a, 48f
+40f, 24a, 24a, 56a
+64f, 24a, 56a
+
+make_header:
+B. header = (size & ~0x7) | (alloc & 0x1) | ((palloc & 0x1) << 1);
+
+set_palloc_in_header:
+A. *(long *)block = (curr & ~0x2) | ((palloc & 0x1) << 1);

@@ -1,0 +1,454 @@
+﻿<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>15-213 (Fall 2006) Recitation #2</title>
+</head>
+
+<body>
+<h2>15-213 (Fall 2006) - Recitation #2</h2>
+
+Tudor Dumitraş<br>
+Adapted from Jernej Barbic's recitation (Spring 2006)<br>
+Adapted from Kun Gao's recitation (Spring 2005)<br>
+Let's go Steelers!!!<br>
+
+<hr>
+<h3>Lab 2:</h3>
+
+The bomb is a 64-bit binary unix executable.
+You have to use the fish machines for this lab.<BR>
+No source code is given, with the exception of the main() routine.<BR>
+Each person has a different bomb.<BR>
+If you make a mistake and the bomb explodes, you lose 1/2 a point (up to max of 20 points).<BR>
+
+<hr>
+<h3>Compiling an example bomb (just for the recitation; different from the Lab 2 problems)</h3>
+
+I generated a sample bomb program to illustrate the main
+points of Lab 2. The program was compiled using:<br>
+<tt>gcc -O1 bomb.c -o bomb</tt><br>
+Since the -g switch is not present, the binary contains no debugging information.
+<br><br>
+
+<h4>General note on compiling for debugging:</h4>
+
+Normally, to enable the debugger to use the source code,
+you would compile a program using:<br>
+<tt>gcc -g bomb.c -o bomb</tt> (for lowest level of optimization), or<br>
+<tt>gcc -g -O2 bomb.c -o bomb</tt> (for level 2 of optimization)<br><br>
+
+The -g -O2 combination is valid and enables one to
+to debug the optimized executable.
+However the compiler will have generated
+a lot of optimizations, which will in my experience make
+it more difficult to step through the code. Using -g with
+no optimizations works best for debugging with source code.
+Debugging with source code is not the debugging style of Lab 2 -
+we will work with the assembly code directly.
+<br><br>
+
+<hr>
+<h3>Examining the bomb</h3>
+
+The symbol table is sometimes
+useful to identify calls to standard library functions,
+(e.g., printf), as well as the bomb's own functions.
+Note that the symbol table is always present in the executable,
+even if the executable was compiled without the -g switch.
+<br><br>
+
+You can look at all the bomb's symbol table by using <tt>nm</tt>:<br>
+<tt>nm bomb</tt><br><br>
+
+Examine the symbols marked with a T (capital t), and 
+ignore the ones that start with an _ (underscore). These are 
+names of functions from the C program that was used to compile 
+the bomb. <br><br>
+
+
+Notice that there is a function called <tt>explode_bomb</tt>; can you guess 
+what this function does?
+
+Next, take a look at the printable strings from the file:<br>
+<tt>strings bomb</tt> <br><br>
+
+This way, you may find clues that will help you defuse some of the 
+phases of your bomb.
+
+Then, use <tt>objdump</tt> to disassemble the bomb:<br>
+<tt>objdump -d bomb | less</tt><br><br>
+
+Assembly code for our example bomb:
+<pre>
+...
+
+0000000000400588 <explode_bomb>:
+  400588:	48 83 ec 08          	sub    $0x8,%rsp
+  40058c:	bf 2c 07 40 00       	mov    $0x40072c,%edi
+  400591:	e8 22 ff ff ff       	callq  4004b8 <puts@plt>
+  400596:	bf 01 00 00 00       	mov    $0x1,%edi
+  40059b:	e8 08 ff ff ff       	callq  4004a8 <exit@plt>
+
+00000000004005a0 <phase_1_of_1>:
+  4005a0:	53                   	push   %rbx
+  4005a1:	48 83 ec 10          	sub    $0x10,%rsp
+  4005a5:	bb 01 00 00 00       	mov    $0x1,%ebx
+  4005aa:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+  4005af:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+  4005b4:	be 36 07 40 00       	mov    $0x400736,%esi
+  4005b9:	48 8b 3d 30 05 10 00 	mov    1049904(%rip),%rdi        # 500af0 <__bss_start>
+  4005c0:	b8 00 00 00 00       	mov    $0x0,%eax
+  4005c5:	e8 ce fe ff ff       	callq  400498 <fscanf@plt>
+  4005ca:	83 f8 02             	cmp    $0x2,%eax
+  4005cd:	74 0a                	je     4005d9 <phase_1_of_1+0x39>
+  4005cf:	b8 00 00 00 00       	mov    $0x0,%eax
+  4005d4:	e8 af ff ff ff       	callq  400588 <explode_bomb>
+  4005d9:	b8 01 00 00 00       	mov    $0x1,%eax
+  4005de:	3b 44 24 08          	cmp    0x8(%rsp),%eax
+  4005e2:	7d 0d                	jge    4005f1 <phase_1_of_1+0x51>
+  4005e4:	8b 54 24 08          	mov    0x8(%rsp),%edx
+  4005e8:	0f af d8             	imul   %eax,%ebx
+  4005eb:	ff c0                	inc    %eax
+  4005ed:	39 d0                	cmp    %edx,%eax
+  4005ef:	7c f7                	jl     4005e8 <phase_1_of_1+0x48>
+  4005f1:	39 5c 24 0c          	cmp    %ebx,0xc(%rsp)
+  4005f5:	74 0a                	je     400601 <phase_1_of_1+0x61>
+  4005f7:	b8 00 00 00 00       	mov    $0x0,%eax
+  4005fc:	e8 87 ff ff ff       	callq  400588 <explode_bomb>
+  400601:	48 83 c4 10          	add    $0x10,%rsp
+  400605:	5b                   	pop    %rbx
+  400606:	c3                   	retq   
+
+0000000000400607 <main>:
+  400607:	48 83 ec 08          	sub    $0x8,%rsp
+  40060b:	bf 48 07 40 00       	mov    $0x400748,%edi
+  400610:	e8 a3 fe ff ff       	callq  4004b8 <puts@plt>
+  400615:	bf 3c 07 40 00       	mov    $0x40073c,%edi
+  40061a:	e8 99 fe ff ff       	callq  4004b8 <puts@plt>
+  40061f:	b8 00 00 00 00       	mov    $0x0,%eax
+  400624:	e8 77 ff ff ff       	callq  4005a0 <phase_1_of_1>
+  400629:	bf a8 07 40 00       	mov    $0x4007a8,%edi
+  40062e:	e8 85 fe ff ff       	callq  4004b8 <puts@plt>
+  400633:	b8 00 00 00 00       	mov    $0x0,%eax
+  400638:	48 83 c4 08          	add    $0x8,%rsp
+  40063c:	c3                   	retq   
+  40063d:	90                   	nop    
+  40063e:	90                   	nop    
+  40063f:	90                   	nop    
+
+...
+</pre>
+
+Look at the code of <tt>explode_bomb</tt>; try to figure out what it does.
+<hr>
+
+
+<h3>Running the bomb</h3>
+
+The bomb can be invoked by:<br>
+<tt>./bomb</tt><br><br>
+
+The program waits for you to enter a string.<br>
+You can enter the input from the keyboard, or read it in from a file:<BR>
+<tt>./bomb solution.txt</tt> <BR><br>
+
+The bomb then examines the string, and either explodes, or not.<Br><br>
+
+<h4>Lab 2 problem statement</h4>
+What input string should we give
+to the program, so that bomb doesn't explode, assuming we don't
+have access to program's source code?
+<br>
+<br>
+
+
+<hr>
+<h3>GDB (GNU DeBugger) </h3>
+<br>
+Now all we need to do is completely understand the assembly code,
+and we can defuse the bomb.<br>
+In Lab 2, we will be dealing with a lot of code,
+which can be difficult to understand.
+Even if we do a good job, we might make a mistake and accidentally
+detonate the bomb.
+This is where the gdb comes in.
+It lets us step through the assembly code as it runs,
+and examine the contents of registers and memory.
+We can also set breakpoints at arbitrary positions in the program.
+Breakpoints are points in the code where program execution
+is instructed to stop. This way, we can let the debugger
+run without interruption over large portions of code,
+such as code that we already understand or believe is error-free.
+
+<h4>Starting gdb</h4>
+Start gdb by specifying what executable to debug:
+<br>
+'gdb bomb'
+<br><br>
+We can run the bomb in the debugger just as we would outside the debugger,
+except that we can instruct the program to stop at certain locations
+and inspect current values of memory and registers.
+As a last resort, we can use (Ctrl-C) to stop the program
+and panic out. But this is not recommended and is usually not
+necessary, as long as we positioned our breakpoints appropriately.<br><br>
+
+To start a program inside gdb:<BR>
+(gdb) run<br><br>
+
+To start a program inside gdb, with certain input parameters:<BR>
+(gdb) run parameters<br><br>
+
+Examples:<br>
+(gdb) run < solution.txt<br>
+(equivalent to ./bomb < solution.txt , just this time inside gdb)<br><br>
+(gdb) run -d 1<br>
+(equivalent to ./bomb -d 1; this is a made-up example in
+the speficic case of the bomb program,
+as 'bomb' supports no such parameters; this example is meant
+to demonstrate how things would work in general)<br><br>
+
+<h4>Exiting gdb</h4>
+
+To exit gdb and return to the shell prompt:<br>
+(gdb) quit<br>
+Note that exiting gdb means you lose all of your breakpoints that
+you set in this gdb session. When you re-run gdb, you need
+to respecify any breakpoints that you want to re-use.
+A common mistake is to forget this and
+then let the debugging proceed straight into the bomb_explode()
+routine.<br>
+
+<h4>Breakpoints</h4>
+
+We wouldn't be using gdb if all we did was run the program
+without any interruptions.
+We need to stop program execution at certain key positions in the code,
+and then examine program behavior around those positions.
+How do we pick a good location for a breakpoint?<br><br>
+
+First, we can always set a breakpoint
+at 'main', since every C program has a function called 'main'.<br><br>
+
+In Lab 2, Dr. Evil accidently gave us 'bomb.c'. By examining this
+code, we see that we can place a good breakpoint at 'phase_1',
+as this is where our input is examined (examine bomb.c).<br><br>
+
+(gdb) break phase_1<br>
+Note: if you mistype the name of the routine, gdb will print a warning and
+not set any breakpoints.
+<br><br>
+
+Also note that program execution will always stop just BEFORE executing
+the instruction you set the breakpoint on.<BR><BR>
+
+Another essential breakpoint to set is on the explode_bomb routine:
+<br>
+(gdb) break explode_bomb<br><br>
+
+For inputs that don't solve the puzzle, this breakpoint will be
+your last safeguard before explosion. I recommend ALWAYS setting this
+breakpoint. In addition to that, I recommend setting another
+breakpoint inside explode_bomb, positioned after the call
+to routine that prints "BOOM!", but before the call to routine
+that notifies the server of the explosion.
+This can be useful if you accidentally enter
+explode_bomb, but don't notice that you hit the safeguard breakpoint.
+After several hours of debugging, when concentration drops down
+in a moment of weakness, it can happen that you
+accidentally instruct the program to keep on going.
+The second breakpoint will save you.<br><br>
+
+
+To set a breakpoint at the machine instruction located at the address 0x401A23:<br>
+(gdb) break *0x401A23<br>
+Note: don't forget the '0x'. If you forget it, and if you are unlucky
+enough that the address doesn't contain any A,B,C,D,E,F characters,
+breakpoint address will be interpreted as if given in the
+decimal notation. This results in a completely different address
+to what was desired, and breakpoint won't work as expected.<br><br>
+
+To see what breakpoints are currently set:<br>
+(gdb) info break<br><br>
+
+To delete one or more breakpoints:<br>
+(gdb) delete  &lt;breakpoint number&gt; <br>
+Example:<br>
+(gdb) delete 4 7<br>
+erases breakpoints 4 and 7.
+<br>
+
+<h4>Terminating program execution from within gdb</h4>
+
+We can terminate the program at any time:<br>
+<br>
+(gdb) kill<br>
+Note that this doesn't exit gdb, and all your breakpoints
+remain active. You can re-run the program using the run
+command, and all breakpoints still apply.<br>
+
+
+<h4>Stepping through the code</h4>
+
+To execute a single machine instruction, use:<BR>
+(gdb) stepi<br>
+Note that if you use 'stepi' on a callq instruction, debugger
+will proceed inside the called function.
+<br>
+Also note that pressing &lt;ENTER&gt; re-executes the last
+gdb command. To execute several 'stepi' instructions
+one after another, type 'stepi' once, and then press &lt;ENTER&gt;
+several times in a row.
+<br><br>
+
+Sometimes we want to execute a single machine instruction,
+but if that instruction is a call to a function, we want
+the debugger to execute the function without our intervention.
+This is achieved using 'nexti':<br>
+(gdb) nexti<br>
+Program will be stopped as soon as control returns from the function,
+i.e. at the instruction
+immediately after callq in the caller function.
+<br><br>
+
+If you accidentally use stepi to enter a function call, and you
+really don't want to debug that function, you can use 'finish'
+to resume execution until the current function returns.
+Execution will stop at the machine instruction immediately
+after the 'callq' instruction in the caller function, just as
+if we had called 'nexti' in the first place:
+<br>
+(gdb) finish<br>
+Note: make sure the current function can really be run
+safely without your intervention. You don't want it
+to call explode_bomb.
+<br><br>
+
+To instruct the program to execute (without your intervention)
+until the next breakpoint is hit, use :<br>
+(gdb) continue<br>
+The same warning as in the case of 'finish' applies.
+<br><br>
+
+If program contains debugging information (-g switch to gcc;
+not the case in Lab 2, but otherwise usually the case ),
+we can also step a single C statement:<br>
+(gdb) step<br><br>
+
+Or, if next instruction is a function call, we can use 'next' to
+execute the function without our intervention. This is just like
+nexti, except that it operates with C code as opposed to machine
+instructions:<br>
+(gdb) next<br><br>
+
+<h4>Disassembling code using gdb</h4>
+
+You can use 'disassemble' to disassemble a function or
+a specified address range. <br><br>
+
+To disassemble function explode_bomb:<br>
+(gdb) disassemble explode_bomb<br><br>
+To disassemble the address range from 0x4005dc to 0x4005eb:<br>
+(gdb) disassemble 0x4005dc 0x4005eb
+
+<h4>Examining registers</h4>
+
+To inspect the current values of registers:<br>
+(gdb) info registers<br>
+This prints out the current values of all registers.<br><br>
+
+To inspect the current values of a specific register:<br>
+(gdb) p $rax<br><br>
+To print the value in hex notation:<br>
+(gdb) p/x $rax<br><br>
+
+Note: using 'p $eax' to print just the lower 32 bits
+of the register doesn't work (at least with
+the current version of gdb on the fish machines).
+You have to print a full 64-bit register.<br><br>
+
+To see the address of the next machine instruction to
+be exectued:<br>
+(gdb) frame<br>
+or, equivalently, you can inspect the instruction pointer register:<br>
+(gdb) p/x $rip<br>
+<br>
+
+Normally, when debugging a C/C++ program for which the source code
+is available (not the case with Lab 2), you can also inspect
+the call-stack (a list of all nested function calls that led to
+the current function being executed):<br>
+(gdb) where<br><br>
+
+<h4>Examining memory</h4>
+
+To inspect the value of memory at location 0x400746:<br>
+(gdb) x/NFU 0x400746<br>
+Here: <BR>
+N = number of units to display<BR>
+F = output format (hex=h, signed decimal=d, unsigned decimal=u, string=s, char=c)<br>
+U = defines what constitutes a unit: b=1 byte, h=2 bytes, w=4 bytes, g=8 bytes<br>
+Note that output format and unit definition characters are mutually distinct from each other.<br><br>
+Examples:<BR>
+To use hex notation, and print two consecutive 64-bit
+words, starting from the address 0x400746 and higher:<br>
+(gdb) x/2xg 0x400746<br>
+To print a null-terminated string at location 0x400746:<br>
+(gdb) x/s 0x400746<br>
+To use hex notation, and print five consecutive 32-bit
+words, starting from the address 0x400746:<br>
+(gdb) x/5xw 0x400746<br>
+To print a single 32-bit word, in decimal notation,
+at the address 0x400746:<br>
+(gdb) x/1dw 0x400746<br>
+
+<br>
+
+<hr>
+
+The source code for the example bomb:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void explode_bomb() {
+   printf("KABOOM!!!\n");
+   exit(1);
+}
+
+void phase_1_of_1 () {
+   int args, num, fact;
+   int i = 0;
+   int check_fact = 1;
+
+   args = fscanf (stdin, "%d %d", &num, &fact);
+   if (args != 2)
+       explode_bomb();
+
+   for (i = 1; i < num; i++)
+       check_fact = check_fact * i;
+
+   if (fact != check_fact)
+       explode_bomb();
+}
+
+int main() {
+   printf("Welcome to the demo bomb. In another moment of weakness, Dr. Evil created this demo bomb.\n");
+
+   printf ("Phase 1\n");
+
+   phase_1_of_1 ();
+
+   printf("You safely defused the bomb. Well done.\n");
+   return 0;
+} 
+
+</pre>
+
+<hr>
+
+
+Refer to the gdb notes online for a quick reference:<br>
+<a href="http://www.cs.cmu.edu/afs/cs/academic/class/15213-f06/www/docs/GDB_commands.txt">http://www.cs.cmu.edu/afs/cs/academic/class/15213-f06/www/docs/GDB_commands.txt</a>
+
+</body>
+</html>
