@@ -1,0 +1,14 @@
+submake:
+	cd ./ecf && $(MAKE)
+	cd ./echo && $(MAKE)
+	cd ./mem && $(MAKE)
+	cd ./tiny && $(MAKE)
+	cd ./vm && $(MAKE)
+
+
+clean:
+	cd ./ecf && $(MAKE) clean
+	cd ./echo && $(MAKE) clean
+	cd ./mem && $(MAKE) clean
+	cd ./tiny && $(MAKE) clean
+	cd ./vm && $(MAKE) clean
